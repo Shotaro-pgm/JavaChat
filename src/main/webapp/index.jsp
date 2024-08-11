@@ -8,7 +8,7 @@
 </head>
 <body>
 <form action="login" method="post">
-ユーザー名：<input type="text" name="userId">
+ユーザー名：<input type="text" name="userName">
 パスワード：<input type="text" name="password">
 <input type="submit" value="ログインする">
 </form>

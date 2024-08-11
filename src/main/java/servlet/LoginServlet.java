@@ -17,7 +17,7 @@ public class LoginServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException{
 		// 送信されたログイン情報を変数に格納する
-		String userId = request.getParameter("userId");
+		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		
 		// UserBeanをインスタンス化する
@@ -25,7 +25,7 @@ public class LoginServlet {
 		
 		// LoginLogicの実行メソッドをよびだす
 		LoginLogic ll = new LoginLogic();
-		userBean = ll.execute(userBean, userId, password);
+		userBean = ll.execute(userBean, userName, password);
 		
 		// userBeanをセッションスコープに保存する
 		HttpSession session = request.getSession();
