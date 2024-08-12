@@ -13,8 +13,6 @@ public class LoginDAO {
 	// DB接続に使用する情報
 	// データマネージャオブジェクトをインスタンス化する
 	DataManager dm = new DataManager();
-	private String DATABASE_NAME = dm.getDATABASE_NAME();
-	private String PROPATIES = dm.getPROPATIES();
 	private String URL = dm.getURL();
 	private String USER = dm.getUSER();
 	private String PASSWORD = dm.getPASSWORD();
