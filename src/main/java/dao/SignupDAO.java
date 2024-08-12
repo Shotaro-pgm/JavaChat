@@ -23,8 +23,17 @@ public class SignupDAO {
 			// MySQLに接続する
 			Class.forName(JDBC_DRIVER);
 			
+			// 確認用
+			System.out.println("JDBCドライバ読み込み完了");
+			
+			// 確認用
+			System.out.println(URL);
+			System.out.println(USER);
+			System.out.println(PASSWORD);
+			
 			// データベースに接続する
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			System.out.println("DB接続完了");
 			
 			// オートコミットをオフにする
 			conn.setAutoCommit(false);
@@ -36,34 +45,43 @@ public class SignupDAO {
 			String firstName = userBean.getFirstName();
 			String lastName = userBean.getLastName();
 			String nickname = userBean.getNickname();
-			String sql = "insert User (userName, password, createdDate, firstName, lastName, nickname) "
-					+ "values (\"" + userName + "\", \"" + password + "\", \"" 
-					+ firstName + "\", \"" + lastName + "\", \"" + nickname + "\")";
+			String sql = "insert user (userName, password, createdDate, firstName, lastName, nickname) "
+					+ "values (\"" + userName + "\", \"" + password + "\", CURRENT_TIMESTAMP, \"" 
+					+ firstName + "\", \"" + lastName + "\", \"" + nickname + "\");";
+			
+			// 確認用
+			System.out.println(sql);
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			// クエリを実行する
-			ps.executeUpdate();
+			int num = ps.executeUpdate();
+			
+			// 確認用
+			System.out.println("クエリ実行完了　リザルト：" + num);
 			
 			// コミットする
 			conn.commit();
 		} catch(SQLException | ClassNotFoundException e) {
-			try {
-				conn.rollback();
-			} catch(SQLException e2) {
-				e2.printStackTrace();
-			} finally {
-				if(conn != null) {
-					try {
-						// オートコミットを有効化する
-						conn.setAutoCommit(true);
-						
-						// DB接続を切断する
-						conn.close();
-					} catch(SQLException e3) {
-						e3.printStackTrace();
-					}
+			if(conn != null) {
+				try {
+					conn.rollback();
+					System.out.println("ロールバックしました。");
+				} catch(SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}finally {
+			if(conn != null) {
+				try {
+					// オートコミットを有効化する
+					conn.setAutoCommit(true);
+					
+					// DB接続を切断する
+					conn.close();
+				} catch(SQLException e3) {
+					e3.printStackTrace();
 				}
 			}
 		}

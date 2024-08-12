@@ -28,7 +28,7 @@ public class SignupLogic {
 			userBean.setUserName(userName);
 			userBean.setPassword(encPassword);
 			userBean.setFirstName(firstName);
-			userBean.setLastLoginDate(lastName);
+			userBean.setLastName(lastName);
 			userBean.setNickname(nickname);
 			
 			// DAOクラスの実行メソッドを呼び出す
@@ -37,6 +37,9 @@ public class SignupLogic {
 			
 			// UserBeanのインスタンスを破棄する
 			userBean = null;
+			
+			// 確認用
+			System.out.println("userBeanのインスタンスの破棄に成功");
 			
 			// 返却用のインスタンスを生成する
 			userBean = new UserBean();

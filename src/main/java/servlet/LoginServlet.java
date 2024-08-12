@@ -5,6 +5,7 @@ import java.io.IOException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -12,8 +13,8 @@ import jakarta.servlet.http.HttpSession;
 import businesslogic.LoginLogic;
 import javabean.UserBean;
 
-@WebServlet("login")
-public class LoginServlet {
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request,
@@ -32,6 +33,9 @@ public class LoginServlet {
 		// userBeanをセッションスコープに保存する
 		HttpSession session = request.getSession();
 		session.setAttribute("userBean", userBean);
+		
+		// 確認用
+		System.out.println(userBean.getUserName());
 		
 		// フォワードする
 		RequestDispatcher rd = request.getRequestDispatcher("chatroomlist");

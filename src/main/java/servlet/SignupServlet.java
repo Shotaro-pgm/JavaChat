@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import businesslogic.SignupLogic;
 import javabean.UserBean;
 
-@WebServlet("signup")
+@WebServlet("/signup")
 public class SignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
