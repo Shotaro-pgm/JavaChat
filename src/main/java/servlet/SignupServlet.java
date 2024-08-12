@@ -32,6 +32,9 @@ public class SignupServlet extends HttpServlet {
 		userBean = sl.execute(userBean, userName, password, firstName, lastName, nickname);
 		
 		// セッションスコープにuserBeanを保存する
+		if(userBean.getUserName() != null) {
+			return;
+		}
 		HttpSession session = request.getSession();
 		session.setAttribute("userBean", userBean);
 		
