@@ -8,10 +8,10 @@
 </head>
 <body>
 <form action="login" method="post">
-ユーザー名：<input type="text" name="userName">
+ユーザー名：<input type="text" name="userName"><br>
 パスワード：<input type="text" name="password">
 <input type="submit" value="ログインする">
 </form>
-<a href="signup">新規登録はこちら</a>
+<a href="signup.jsp">新規登録はこちら</a>
 </body>
 </html>
