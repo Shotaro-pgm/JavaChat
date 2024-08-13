@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import javabean.UserBean %>
+<%@ page import="javabean.UserBean" %>
 <!DOCTYPE html>
 <%
 UserBean userBean = (UserBean)session.getAttribute("userBean");
@@ -14,7 +14,7 @@ UserBean userBean = (UserBean)session.getAttribute("userBean");
 <p>ボタンを押してチャットを始める</p>
 <form action="login" method="post">
 <input type="hidden" name="userName" value="<%= userBean.getUserName() %>">
-<input type="hidden" name="userName" value="<%= userBean.getPassword() %>">
+<input type="hidden" name="password" value="<%= userBean.getPassword() %>">
 <input type="submit" value="はじめる">
 </form>
 </body>

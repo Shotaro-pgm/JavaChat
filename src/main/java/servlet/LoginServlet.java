@@ -16,6 +16,7 @@ import javabean.UserBean;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private UserBean userBean = null;
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException{
@@ -24,7 +25,7 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		// UserBeanをインスタンス化する
-		UserBean userBean = new UserBean();
+		this.userBean = new UserBean();
 		
 		// LoginLogicの実行メソッドをよびだす
 		LoginLogic ll = new LoginLogic();
@@ -33,13 +34,19 @@ public class LoginServlet extends HttpServlet {
 		// userBeanをセッションスコープに保存する
 		HttpSession session = request.getSession();
 		session.setAttribute("userBean", userBean);
-		
-		// 確認用
-		System.out.println(userBean.getUserName());
-		
+				
 		// フォワードする
 		RequestDispatcher rd = request.getRequestDispatcher("chatroomlist");
 		rd.forward(request, response);
+	}
+	
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException{
+		// ログイン情報を破棄する
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		response.sendRedirect("index.jsp");
 	}
 
 }

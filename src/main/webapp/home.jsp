@@ -15,6 +15,8 @@ List<ChatroomBean> chatroomList = (List<ChatroomBean>)session.getAttribute("chat
 </head>
 <body>
 <h1>JavaChat</h1>
+<p><%= userBean.getUserName() %>さん、こんにちは</p>
+<a href="login" onclick="return confirm('ログアウトします。よろしいですか？')">ログアウト</a>
 <table>
 <% for(ChatroomBean chatroom : chatroomList){ %>
 <tr>

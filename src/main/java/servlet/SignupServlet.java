@@ -34,14 +34,17 @@ public class SignupServlet extends HttpServlet {
 		userBean = sl.execute(userBean, userName, password, firstName, lastName, nickname);
 		
 		// セッションスコープにuserBeanを保存する
-		if(userBean.getUserName() != null) {
+		if(userBean.getUserName() == null) {
 			return;
 		}
 		HttpSession session = request.getSession();
 		session.setAttribute("userBean", userBean);
 		
+		// 確認用
+		System.out.println("セッションスコープへの保存完了");
+		
 		// フォワードする
-		RequestDispatcher rd = request.getRequestDispatcher("sinuplogin.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("signuplogin.jsp");
 		rd.forward(request, response);
 		
 	}
