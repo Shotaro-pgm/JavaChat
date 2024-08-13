@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import businesslogic.ChatroomListLogic;
 import javabean.ChatroomBean;
 import javabean.UserBean;
 
+@WebServlet("/chatroomlist")
 public class ChatroomListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
