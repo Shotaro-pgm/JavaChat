@@ -78,10 +78,14 @@ public class LoginDAO {
 			userBean.setLastLoginDate(lastLoginDate);
 			}
 		} catch(SQLException | ClassNotFoundException e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e2) {
-				e2.printStackTrace();
+			if(conn != null) {
+				try {
+					System.out.println("ロールバックしました。");
+					conn.rollback();
+				} catch(SQLException e2) {
+					System.out.println("ロールバックでエラーが発生しました。");
+					e2.printStackTrace();
+				}
 			}
 		} finally {
 			if(conn != null) {
