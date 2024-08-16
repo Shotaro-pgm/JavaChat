@@ -20,9 +20,19 @@ List<ChatroomBean> chatroomList = (List<ChatroomBean>)session.getAttribute("chat
 <table>
 <% for(ChatroomBean chatroom : chatroomList){ %>
 <tr>
-<th><%= chatroom.getRecipient() %></th>
+<th><a href="viewchat?recipient=<%= chatroom.getRecipient() %>"></a><%= chatroom.getRecipient() %></th>
 </tr>
 <% } %>
 </table>
 </body>
+<%
+if(request.getAttribute("error_msg") != null){
+	String errorMsg = (String)request.getAttribute("error_msg");
+%>
+<script type="text/javascript">
+// チャット履歴取得に失敗した場合にアラートを出す
+let errorMsg = <%= errorMsg %>
+alert(errorMsg);
+</script>
+<% } %>
 </html>
