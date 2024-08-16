@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import businesslogic.ViewChatroomLogic;
 import javabean.ChatroomBean;
 import javabean.UserBean;
 
+@WebServlet("/viewchat")
 public class ViewChatroomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,6 +27,7 @@ public class ViewChatroomServlet extends HttpServlet {
 		String sender = userBean.getUserName();
 		// 受信者
 		String recipient = request.getParameter("recipient");
+		session.setAttribute("recipient", recipient);
 		
 		// 新規送信先のユーザが存在するかを確認する
 		ViewChatroomLogic vcl = new ViewChatroomLogic();
@@ -59,13 +62,14 @@ public class ViewChatroomServlet extends HttpServlet {
 		String sender = userBean.getUserName();
 		// 受信者
 		String recipient = request.getParameter("recipient");
+		session.setAttribute("recipient", recipient);
 		
 		// チャット履歴取得のロジッククラスをインスタンス化する
 		ViewChatroomLogic vcl = new ViewChatroomLogic();
 		List<ChatroomBean> chatHistory = new ArrayList();
 		chatHistory = vcl.execGetChatHistory(sender, recipient);
 		
-		// 空のリストをセッションスコープに保存する
+		// 取得結果をセッションスコープに保存する
 		session.setAttribute("chathistory", chatHistory);
 		
 		// リダイレクト

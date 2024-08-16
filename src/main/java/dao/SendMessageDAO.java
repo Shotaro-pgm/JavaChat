@@ -3,12 +3,11 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import datamanager.DataManager;
 
-public class SearchUserDAO {
+public class SendMessageDAO {
 	// DB接続に使用する情報
 	// データマネージャオブジェクトをインスタンス化する
 	DataManager dm = new DataManager();
@@ -17,13 +16,16 @@ public class SearchUserDAO {
 	private String PASSWORD = dm.getPASSWORD();
 	private String JDBC_DRIVER = dm.getJDBC_DRIVER();
 	
-	public String execute(String recipient){
-		String rcpCheck = null;
+	public int execute(String sender, String recipient, String content) {
+		int result = 0;
 		Connection conn = null;
 		
 		try {
 			// MySQLに接続する
 			Class.forName(JDBC_DRIVER);
+			
+			// 確認用
+			System.out.println("JDBCドライバ読み込み完了");
 			
 			// データベースに接続する
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -31,19 +33,15 @@ public class SearchUserDAO {
 			// オートコミットをオフにする
 			conn.setAutoCommit(false);
 			
-			String sql = "select userName from user where userName = \"" + recipient + "\";";
+			// クエリを生成する
+			String sql = "insert message (content, sender, recipient) values "
+					+ "(\"" + content + "\", " + sender + "\", " + recipient + "\";";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			// クエリを実行する
-			ResultSet rs = null;
-			rs = ps.executeQuery();
-			
-			// 取得結果を変数に格納する
-			while(rs.next()) {
-				rcpCheck = rs.getString("userName");
-			}
+			result = ps.executeUpdate();
 			
 			// コミットする
 			conn.commit();
@@ -51,8 +49,8 @@ public class SearchUserDAO {
 			if(conn != null) {
 				try {
 					conn.rollback();
+					System.out.println("メッセージ送信に失敗しました。");
 				} catch(SQLException e2) {
-					System.out.println("ユーザ情報取得でエラーが発生しました。");
 					e2.printStackTrace();
 				}
 			}
@@ -65,13 +63,12 @@ public class SearchUserDAO {
 					// DB接続を切断する
 					conn.close();
 				} catch(SQLException e3) {
-					System.out.println("ユーザ情報取得でエラーが発生しました。");
 					e3.printStackTrace();
 				}
 			}
 		}
 		
-		return rcpCheck;
+		return result;
 	}
 
 }
