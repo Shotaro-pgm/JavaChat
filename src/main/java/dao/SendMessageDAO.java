@@ -34,8 +34,11 @@ public class SendMessageDAO {
 			conn.setAutoCommit(false);
 			
 			// クエリを生成する
-			String sql = "insert message (content, sender, recipient) values "
-					+ "(\"" + content + "\", " + sender + "\", " + recipient + "\";";
+			String sql = "insert into message (content, sender, recipient, sendTime) values "
+					+ "(\"" + content + "\", \"" + sender + "\", \"" + recipient + "\", CURRENT_TIMESTAMP);";
+			
+			// 確認用
+			System.out.println(sql);
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);

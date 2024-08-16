@@ -29,10 +29,17 @@ public class ViewChatroomServlet extends HttpServlet {
 		String recipient = request.getParameter("recipient");
 		session.setAttribute("recipient", recipient);
 		
+		// 確認用
+		System.out.println(sender);
+		System.out.println(recipient);
+		
 		// 新規送信先のユーザが存在するかを確認する
 		ViewChatroomLogic vcl = new ViewChatroomLogic();
 		boolean result = false;
 		result = vcl.execUserSearch(recipient);
+		
+		// 確認用
+		System.out.println(result);
 		
 		// 取得結果を判定する
 		if(!result) {
@@ -40,13 +47,20 @@ public class ViewChatroomServlet extends HttpServlet {
 			String errorMsg = "指定したユーザは存在しません。";
 			session.setAttribute("error_msg", errorMsg);
 			
+			// 確認用
+			System.out.println(errorMsg);
+			
 			// リダイレクト
 			response.sendRedirect("home.jsp");
+			return;
 		}
 		
 		// 空のリストをセッションスコープに保存する
 		List<ChatroomBean> chatHistory = new ArrayList();
 		session.setAttribute("chathistory", chatHistory);
+		
+		// 確認用
+		System.out.println(chatHistory);
 		
 		// リダイレクト
 		response.sendRedirect("chatroom.jsp");

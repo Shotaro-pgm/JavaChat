@@ -8,6 +8,13 @@ public class ChatroomBean implements Serializable {
 	private String sender;
 	private String recipient;
 	private String sendTime;
+	
+	public ChatroomBean() {}
+	public ChatroomBean(String sender, String content) {
+		this.sender = sender;
+		this.content = content;
+	}
+	
 	public String getId() {
 		return id;
 	}

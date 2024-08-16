@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="javabean/ChatroomBean" %>
+<%@ page import="javabean.ChatroomBean" %>
 <%@ page import="java.util.List" %>
 <%
-List<ChatroomBean> chatroom = (List<ChatroomBean>)request.getAttribute("chatroom");
+List<ChatroomBean> chatroom = (List<ChatroomBean>)session.getAttribute("chathistory");
 %>
 <!DOCTYPE html>
 <html>
@@ -16,8 +16,9 @@ List<ChatroomBean> chatroom = (List<ChatroomBean>)request.getAttribute("chatroom
 <input type="text" name="content">
 <input type="submit" value="送信">
 </form>
-<% for(ChatroomBean chat : ChatroomBean){ %>
-<p><%= chat.getSender %>さん：<%= chat.getContent() %></p><br>
+<% for(ChatroomBean chat : chatroom){ %>
+<p><%= chat.getSender() %>さん：<%= chat.getContent() %></p><br>
+<% System.out.println(chat.getContent()); %>
 <% } %>
 </body>
 <%

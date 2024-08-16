@@ -33,6 +33,9 @@ public class SearchUserDAO {
 			
 			String sql = "select userName from user where userName = \"" + recipient + "\";";
 			
+			// 確認用
+			System.out.println(sql);
+			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
 			

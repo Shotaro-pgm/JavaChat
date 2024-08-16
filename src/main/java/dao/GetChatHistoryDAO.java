@@ -49,15 +49,25 @@ public class GetChatHistoryDAO {
 				rs = ps.executeQuery();
 				
 				// 取得結果をリストに格納する
-				ChatroomBean chatroomBean = new ChatroomBean();
+				ChatroomBean chatroomBean = null;
 				while(rs.next()) {
 					// 取得結果を変数に格納する
 					String content = rs.getString("content");
 					sender = rs.getString("sender");
 					
+					// 確認用
+					System.out.println(content);
+					System.out.println(sender);
+					
+					/*
 					// JavaBeanのパラメータに設定する
 					chatroomBean.setContent(content);
 					chatroomBean.setSender(sender);
+					*/
+					
+					chatroomBean = new ChatroomBean(sender, content);
+					
+					System.out.println("JavaBeanにセット後の確認：" + chatroomBean.getContent());
 					
 					// リストに追加する
 					chatHistory.add(chatroomBean);

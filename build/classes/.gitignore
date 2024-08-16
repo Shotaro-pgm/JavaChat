@@ -1,5 +1,4 @@
-/dao/
 /servlet/
-/javabean/
 /businesslogic/
-/ViewChatroomServlet.class
+/dao/
+/javabean/
