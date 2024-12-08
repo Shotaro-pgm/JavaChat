@@ -1,7 +1,7 @@
 package dao;
 
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -14,17 +14,18 @@ public class DBConnectionPool {
     private static HikariDataSource dataSource;
 
     static {
+    	Properties props = new Properties();
+    	String strpass = "/Users/itoshotaro/プログラミング/properties/JavaChat/hikari.properties";
+    	
         try {
-            // プロパティファイルの読み込み
-            Properties props = new Properties();
-            props.load(new FileInputStream("src/main/resources/hikari.properties")); // プロパティファイルのパスを指定
-
+        	InputStream istream = new FileInputStream(strpass);
+            props.load(istream);
+            
             // HikariCP設定を反映
             HikariConfig config = new HikariConfig(props);
             dataSource = new HikariDataSource(config);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load HikariCP configuration", e);
+        } catch(Exception e) {
+        	e.printStackTrace();
         }
     }
 

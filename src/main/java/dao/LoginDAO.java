@@ -1,56 +1,43 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import datamanager.DataManager;
+import datamanager.DBConnectInfo;
 import javabean.UserBean;
 
-public class LoginDAO {
+public class LoginDAO extends DBConnectManager {
 	// DB接続に使用する情報
 	// データマネージャオブジェクトをインスタンス化する
-	DataManager dm = new DataManager();
-	private String URL = dm.getURL();
-	private String USER = dm.getUSER();
-	private String PASSWORD = dm.getPASSWORD();
-	private String JDBC_DRIVER = dm.getJDBC_DRIVER();
-	
-	
 	public UserBean execute(UserBean userBean) {
-		Connection conn = null;
+		DBConnectInfo dbci = DbConnect();
+		Connection conn = dbci.getConn();
+		PreparedStatement pstmt = dbci.getPstmt();
+		ResultSet rs = dbci.getRs();
+		
 		try {
-			// MySQLに接続する
-			Class.forName(JDBC_DRIVER);
-			
-			// データベースに接続する
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			
-			// オートコミットをオフにする
-			conn.setAutoCommit(false);
-			
 			// クエリを生成する
 			String userName = userBean.getUserName();
 			String password = userBean.getPassword();
 			String sql = "select * from User where userName = \"" + userName + "\" and password = \"" + password +"\";";
 			
 			// クエリを渡す
-			PreparedStatement ps = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			
 			// クエリを実行して結果を取得する
-			ResultSet rs = ps.executeQuery(sql);
+			rs = pstmt.executeQuery(sql);
 						
 			// 最終ログイン日時を更新する
 			// クエリを生成する
 			sql = "UPDATE User SET lastLoginDate = CURRENT_TIMESTAMP;";
 			
 			// クエリを渡す
-			ps = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			
 			// クエリを実行する
-			ps.executeUpdate();
+			pstmt.executeUpdate();
 			
 			// コミットする
 			conn.commit();
@@ -77,7 +64,7 @@ public class LoginDAO {
 			userBean.setGreeting(greeting);
 			userBean.setLastLoginDate(lastLoginDate);
 			}
-		} catch(SQLException | ClassNotFoundException e) {
+		} catch(SQLException e) {
 			if(conn != null) {
 				try {
 					System.out.println("ロールバックしました。");
@@ -88,17 +75,7 @@ public class LoginDAO {
 				}
 			}
 		} finally {
-			if(conn != null) {
-				try {
-					// オートコミットを有効化する
-					conn.setAutoCommit(true);
-					
-					// DB接続を切断する
-					conn.close();
-				} catch(SQLException e3) {
-					e3.printStackTrace();
-				}
-			}
+			DbClose(dbci);
 		}
 		
 		return userBean;
