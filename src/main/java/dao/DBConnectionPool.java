@@ -17,11 +17,21 @@ public class DBConnectionPool {
         try {
             // プロパティファイルの読み込み
             Properties props = new Properties();
-            props.load(new FileInputStream("src/main/resources/hikari.properties")); // プロパティファイルのパスを指定
+            props.load(new FileInputStream("/Users/itoshotaro/プログラミング/properties/JavaChat/hikari.properties")); // プロパティファイルのパスを指定
 
             // HikariCP設定を反映
+            /*
             HikariConfig config = new HikariConfig(props);
             dataSource = new HikariDataSource(config);
+            */
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(props.getProperty("dataSource.url"));
+            config.setUsername(props.getProperty("dataSource.user"));
+            config.setPassword(props.getProperty("dataSource.password"));
+            config.setMaximumPoolSize(Integer.parseInt(props.getProperty("maximumPoolSize")));
+            
+            
+            
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to load HikariCP configuration", e);
