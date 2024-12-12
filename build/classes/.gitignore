@@ -1,4 +1,5 @@
-/servlet/
 /businesslogic/
 /dao/
+/datamanager/
 /javabean/
+/servlet/

@@ -1,35 +1,17 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import datamanager.DataManager;
 import javabean.UserBean;
 
-public class LoginDAO {
-	// DB接続に使用する情報
-	// データマネージャオブジェクトをインスタンス化する
-	DataManager dm = new DataManager();
-	private String URL = dm.getURL();
-	private String USER = dm.getUSER();
-	private String PASSWORD = dm.getPASSWORD();
-	private String JDBC_DRIVER = dm.getJDBC_DRIVER();
-	
-	
+public class LoginDAO extends DBConnctor {
 	public UserBean execute(UserBean userBean) {
 		Connection conn = null;
 		try {
-			// MySQLに接続する
-			Class.forName(JDBC_DRIVER);
-			
-			// データベースに接続する
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			
-			// オートコミットをオフにする
-			conn.setAutoCommit(false);
+			conn = DbConnect();
 			
 			// クエリを生成する
 			String userName = userBean.getUserName();
@@ -77,7 +59,7 @@ public class LoginDAO {
 			userBean.setGreeting(greeting);
 			userBean.setLastLoginDate(lastLoginDate);
 			}
-		} catch(SQLException | ClassNotFoundException e) {
+		} catch(SQLException e) {
 			if(conn != null) {
 				try {
 					System.out.println("ロールバックしました。");
@@ -88,17 +70,7 @@ public class LoginDAO {
 				}
 			}
 		} finally {
-			if(conn != null) {
-				try {
-					// オートコミットを有効化する
-					conn.setAutoCommit(true);
-					
-					// DB接続を切断する
-					conn.close();
-				} catch(SQLException e3) {
-					e3.printStackTrace();
-				}
-			}
+			DBClose(conn);
 		}
 		
 		return userBean;
