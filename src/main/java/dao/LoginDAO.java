@@ -26,7 +26,7 @@ public class LoginDAO extends DBConnctor {
 						
 			// 最終ログイン日時を更新する
 			// クエリを生成する
-			sql = "UPDATE User SET lastLoginDate = CURRENT_TIMESTAMP;";
+			sql = "UPDATE User SET lastLoginDate = CURRENT_TIMESTAMP where userName = \"" + userName + "\" and password = \"" + password +"\";";
 			
 			// クエリを渡す
 			ps = conn.prepareStatement(sql);
@@ -34,15 +34,12 @@ public class LoginDAO extends DBConnctor {
 			// クエリを実行する
 			ps.executeUpdate();
 			
-			// コミットする
-			conn.commit();
-			
 			// 取得した実行結果をuserBeanに格納する
 			while(rs.next()) {
 			String id = rs.getString("id");
 			userName = rs.getString("userName");
 			password = rs.getString("password");
-			String createDate = rs.getString("createDate");
+			String createDate = rs.getString("createdDate");
 			String firstName = rs.getString("firstName");
 			String lastName = rs.getString("lastName");
 			String nickname = rs.getString("nickname");
@@ -62,8 +59,9 @@ public class LoginDAO extends DBConnctor {
 		} catch(SQLException e) {
 			if(conn != null) {
 				try {
-					System.out.println("ロールバックしました。");
 					conn.rollback();
+					System.out.println("ロールバックしました。");
+					e.printStackTrace();
 				} catch(SQLException e2) {
 					System.out.println("ロールバックでエラーが発生しました。");
 					e2.printStackTrace();

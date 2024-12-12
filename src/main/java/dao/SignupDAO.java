@@ -1,42 +1,16 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import datamanager.DataManager;
 import javabean.UserBean;
 
-public class SignupDAO {
-	// DB接続に使用する情報
-	// データマネージャオブジェクトをインスタンス化する
-	DataManager dm = new DataManager();
-	private String URL = dm.getURL();
-	private String USER = dm.getUSER();
-	private String PASSWORD = dm.getPASSWORD();
-	private String JDBC_DRIVER = dm.getJDBC_DRIVER();
-	
+public class SignupDAO extends DBConnctor {
 	public void execute(UserBean userBean) {
 		Connection conn = null;
 		try {
-			// MySQLに接続する
-			Class.forName(JDBC_DRIVER);
-			
-			// 確認用
-			System.out.println("JDBCドライバ読み込み完了");
-			
-			// 確認用
-			System.out.println(URL);
-			System.out.println(USER);
-			System.out.println(PASSWORD);
-			
-			// データベースに接続する
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			System.out.println("DB接続完了");
-			
-			// オートコミットをオフにする
-			conn.setAutoCommit(false);
+			conn = DbConnect();
 			
 			// クエリを生成する
 			// userBeanが保持するデータを変数に格納する
@@ -49,41 +23,23 @@ public class SignupDAO {
 					+ "values (\"" + userName + "\", \"" + password + "\", CURRENT_TIMESTAMP, \"" 
 					+ firstName + "\", \"" + lastName + "\", \"" + nickname + "\");";
 			
-			// 確認用
-			System.out.println(sql);
-			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			// クエリを実行する
 			int num = ps.executeUpdate();
-			
-			// 確認用
-			System.out.println("クエリ実行完了　リザルト：" + num);
-			
-			// コミットする
-			conn.commit();
-		} catch(SQLException | ClassNotFoundException e) {
+		} catch(SQLException e) {
 			if(conn != null) {
 				try {
 					conn.rollback();
 					System.out.println("ロールバックしました。");
+					e.printStackTrace();
 				} catch(SQLException e2) {
 					e2.printStackTrace();
 				}
 			}
 		}finally {
-			if(conn != null) {
-				try {
-					// オートコミットを有効化する
-					conn.setAutoCommit(true);
-					
-					// DB接続を切断する
-					conn.close();
-				} catch(SQLException e3) {
-					e3.printStackTrace();
-				}
-			}
+			DBClose(conn);
 		}
 	}
 

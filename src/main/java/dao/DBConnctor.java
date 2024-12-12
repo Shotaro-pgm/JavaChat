@@ -30,6 +30,8 @@ public class DBConnctor {
 	public void DBClose(Connection conn) {
 		if(conn != null) {
 			try {
+				conn.commit();
+				
 				conn.setAutoCommit(true);
 				
 				conn.close();
