@@ -1,40 +1,21 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import datamanager.DataManager;
 import javabean.ChatroomBean;
 
-public class ChatroomListDAO {
-	// DB接続に使用する情報
-	// データマネージャオブジェクトをインスタンス化する
-	DataManager dm = new DataManager();
-	private String URL = dm.getURL();
-	private String USER = dm.getUSER();
-	private String PASSWORD = dm.getPASSWORD();
-	private String JDBC_DRIVER = dm.getJDBC_DRIVER();
-	
+public class ChatroomListDAO extends DBConnctor {
 	public List<ChatroomBean> execute(String userName){
-		// 結果返却用のリストをインスタンス化する
+		Connection conn = null;
 		List<ChatroomBean> list = new ArrayList();
 		
-		// コネクションオブジェクトをインスタンス化する
-		Connection conn = null;
 		try {
-			// MySQLに接続する
-			Class.forName(JDBC_DRIVER);
-			
-			// データベースに接続する
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			
-			// オートコミットをオフにする
-			conn.setAutoCommit(false);
+			conn = DbConnect();
 			
 			// クエリを生成する
 			String sql = "select distinct recipient from message where sender = \"" + userName + "\" order by sendTime desc;";
@@ -53,12 +34,11 @@ public class ChatroomListDAO {
 				list.add(chatroomBean);
 			}
 			
-			// コミットする
-			conn.commit();
-		} catch(SQLException | ClassNotFoundException e) {
+		} catch(SQLException e) {
 			if(conn != null) {
 				try {
 					conn.rollback();
+					e.printStackTrace();
 				} catch(SQLException e2) {
 					System.out.println("チャットルーム一覧取得でエラーが発生しました。");
 					e2.printStackTrace();
