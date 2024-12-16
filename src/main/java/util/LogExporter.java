@@ -7,12 +7,12 @@ public class LogExporter {
 	// slf4jとlogbackを使用する宣言
 	private Logger logger = LoggerFactory.getLogger("LogExporter");
 	 
-	public void runLog() {
-		logger.trace("test-trace");
-        logger.debug("test-debug");
-        logger.info("test-info");
-        logger.warn("test-warn");
-        logger.error("test-error");
+	public void runLog(String message) {
+		logger.trace(message);
+        logger.debug(message);
+        logger.info(message);
+        logger.warn(message);
+        logger.error(message);
 	}
 
 }
