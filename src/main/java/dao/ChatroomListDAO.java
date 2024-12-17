@@ -18,7 +18,7 @@ public class ChatroomListDAO extends DBConnctor {
 			conn = DbConnect();
 			
 			// クエリを生成する
-			String sql = "select distinct recipient from message where sender = \"" + userName + "\" order by sendTime desc;";
+			String sql = "select distinct recipient from message where sender = \'" + userName + "\' order by sendTime desc;";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);

@@ -1,12 +1,15 @@
 package datamanager;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class DataManager {
-	private String DATABASE_NAME = "JavaChat";
-	private String PROPATIES = "?characterEncoding=UTF-8&useSSL=false";
-	private String URL = "jdbc:mySQL://localhost/" + DATABASE_NAME + PROPATIES;
-	private String USER = "root";
-	private String PASSWORD = "password";
-	private String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+	private Dotenv dotenv = Dotenv.load();
+	
+	private String DATABASE_NAME = dotenv.get("DATABASE_NAME");
+	private String URL = dotenv.get("DATABASE_URL") + ":" + dotenv.get("RDB_NAME") + ":" + dotenv.get("DATABASE_HOST") + ":" + dotenv.get("DATABASE_PORT") +  DATABASE_NAME;
+	private String USER = dotenv.get("POSTGRE_USER");
+	private String PASSWORD = dotenv.get("POSTGRE_PASSWORD");;
+	private String JDBC_DRIVER = "org.postgresql.Driver";
 	
 	private String LOGIN_SERVLET = "LoginServlet";
 	
@@ -50,14 +53,6 @@ public class DataManager {
 
 	public void setDATABASE_NAME(String dATABASE_NAME) {
 		DATABASE_NAME = dATABASE_NAME;
-	}
-
-	public String getPROPATIES() {
-		return PROPATIES;
-	}
-
-	public void setPROPATIES(String pROPATIES) {
-		PROPATIES = pROPATIES;
 	}
 
 	public String getURL() {

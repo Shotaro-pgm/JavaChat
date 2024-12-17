@@ -14,7 +14,7 @@ public class SendMessageDAO extends DBConnctor {
 			
 			// クエリを生成する
 			String sql = "insert into message (content, sender, recipient, sendTime) values "
-					+ "(\"" + content + "\", \"" + sender + "\", \"" + recipient + "\", CURRENT_TIMESTAMP);";
+					+ "(\'" + content + "\', \'" + sender + "\', \'" + recipient + "\', CURRENT_TIMESTAMP);";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);

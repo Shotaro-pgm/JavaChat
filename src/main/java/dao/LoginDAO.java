@@ -16,7 +16,7 @@ public class LoginDAO extends DBConnctor {
 			// クエリを生成する
 			String userName = userBean.getUserName();
 			String password = userBean.getPassword();
-			String sql = "select * from User where userName = \"" + userName + "\" and password = \"" + password +"\";";
+			String sql = "select * from account where userName = \'" + userName + "\' and password = \'" + password +"\';";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -26,7 +26,7 @@ public class LoginDAO extends DBConnctor {
 						
 			// 最終ログイン日時を更新する
 			// クエリを生成する
-			sql = "UPDATE User SET lastLoginDate = CURRENT_TIMESTAMP where userName = \"" + userName + "\" and password = \"" + password +"\";";
+			sql = "UPDATE account SET lastLoginDate = CURRENT_TIMESTAMP where userName = \'" + userName + "\' and password = \'" + password +"\';";
 			
 			// クエリを渡す
 			ps = conn.prepareStatement(sql);
