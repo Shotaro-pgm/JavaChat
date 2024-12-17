@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javabean.UserBean;
+import util.LogExporter;
 
 public class LoginDAO extends DBConnctor {
+	private LogExporter logExporter = new LogExporter();
+	
 	public UserBean execute(UserBean userBean) {
 		Connection conn = null;
 		try {
@@ -17,6 +20,7 @@ public class LoginDAO extends DBConnctor {
 			String userName = userBean.getUserName();
 			String password = userBean.getPassword();
 			String sql = "select * from account where userName = \'" + userName + "\' and password = \'" + password +"\';";
+			logExporter.runLog(sql);
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
