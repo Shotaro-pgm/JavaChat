@@ -13,7 +13,7 @@ public class SearchUserDAO extends DBConnctor {
 		try {
 			conn = DbConnect();
 			
-			String sql = "select userName from user where userName = \"" + recipient + "\";";
+			String sql = "select userName from account where userName = \'" + recipient + "\';";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);

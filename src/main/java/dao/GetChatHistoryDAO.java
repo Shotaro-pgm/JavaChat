@@ -20,9 +20,9 @@ public class GetChatHistoryDAO extends DBConnctor {
 			
 			// クエリを生成する
 			String sql = "select content, sender from message where (sender = "
-					+ "\"" + sender + "\" and recipient = \"" + recipient 
-					+ "\") or (sender = \"" + recipient + "\" and recipient = \"" 
-					+ sender + "\") order by sendTime desc;";
+					+ "\'" + sender + "\' and recipient = \'" + recipient 
+					+ "\') or (sender = \'" + recipient + "\' and recipient = \'" 
+					+ sender + "\') order by sendTime desc;";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);

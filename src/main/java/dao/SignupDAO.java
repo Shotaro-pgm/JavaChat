@@ -19,9 +19,9 @@ public class SignupDAO extends DBConnctor {
 			String firstName = userBean.getFirstName();
 			String lastName = userBean.getLastName();
 			String nickname = userBean.getNickname();
-			String sql = "insert user (userName, password, createdDate, firstName, lastName, nickname) "
-					+ "values (\"" + userName + "\", \"" + password + "\", CURRENT_TIMESTAMP, \"" 
-					+ firstName + "\", \"" + lastName + "\", \"" + nickname + "\");";
+			String sql = "insert account (userName, password, createdDate, firstName, lastName, nickname) "
+					+ "values (\'" + userName + "\', \'" + password + "\', CURRENT_TIMESTAMP, \'"
+					+ firstName + "\', \'" + lastName + "\', \'" + nickname + "\');";
 			
 			// クエリを渡す
 			PreparedStatement ps = conn.prepareStatement(sql);
