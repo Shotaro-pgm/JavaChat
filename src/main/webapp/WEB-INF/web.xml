@@ -4,4 +4,33 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
                              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
+
+
+<display-name>JavaCaht</display-name>
+
+<servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>servlet.</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>ViewChatroomServlet</servlet-name>
+    <servlet-class>servlet.ViewChatroomServlet</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>SignupServlet</servlet-name>
+    <servlet-class>servlet.SignupServlet</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>SendMessageServlet</servlet-name>
+    <servlet-class>servlet.SendMessageServlet</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>ChatroomListServlet</servlet-name>
+    <servlet-class>servlet.ChatroomListServlet</servlet-class>
+</servlet>
+
+<welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
+
 </web-app>
